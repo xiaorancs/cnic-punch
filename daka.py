@@ -17,9 +17,6 @@ from email.header import Header
 
 # In[ ]:
 
-
-
-
 # In[23]:
 
 def getToken(email, password):
@@ -167,11 +164,34 @@ def run(email, password):
         
     return None
 
+def timefilter():
+    '''时间过滤函数，跳过周末和假期
+    
+    '''
+    today_date = time.strftime('%Y%m%d')
+
+    date_file = open('../date/date','r+')
+    datelist = []
+    for d in date_file.readlines():
+        datelist.append(d[:8])
+    date_file.close()
+    
+    # 假期或者周末
+    if today_date in datelist:
+        return True
+    
+    return False
+
 
 def main():
     '''
     主函数运行
     '''
+    # 假期或者周末，过滤
+    if timefilter():
+        print(time.strftime('%Y-%m-%d')+" Today Rest!")
+        return None
+
     # 每一个元素是用户和密码,在这里添加自己的即可
     userlist = [['miaomiao@cnic.cn','miaomiao'],
                 ['wangwang@cnic.cn','wangwang']]
