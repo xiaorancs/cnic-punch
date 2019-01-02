@@ -155,7 +155,7 @@ def timefilter():
     '''
     today_date = time.strftime('%Y%m%d')
 
-    date_file = open('/home/wss/miao/dakala/date/date','r+')
+    date_file = open('date/date','r+')
     datelist = []
     for d in date_file.readlines():
         datelist.append(d[:8])
