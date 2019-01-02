@@ -10,25 +10,24 @@
 + 多人随机打卡
 
 程序的不足：
-+ 没有设置节假的判断(后期会加上)
-+ 不同远程直接访问操作
++ 不同远程直接访问操作,需要后台进行手动添加
 
 使用方式很简单：    
-只需调用daka.py中的main函数，输入自己的邮箱和密码到main函数中对的userlist中即可。(注意一定要输入正确的邮箱和密码.
-例如：
+只需调用daka.py中的main函数，输入自己的邮箱和密码到main函数中对的userlist中即可。(注意一定要输入正确的邮箱和密码)
 ```
-main()
+python daka.py
 ```
+
 使用Linux crontab 命令创建定时任务(详细命令，请百度)
 方法1.
 ```
 crontab -e
 # 创建上班打卡任务，使用文件的绝对路径，建议python解释器也使用绝对路径
 # 每周1-5的早上7:40 准时打卡下班，邮件提醒
-40 7 1-5 * * /usr/lib/python .../daka.py >> .../check.log 2>&1
+40 7 1-5 * * python daka.py >> check.log 2>&1
 
 # 创建下班打卡任务，每周1-5的早上17:30 准时打卡下班，邮件提醒
-30 17 1-5 * * /usr/lib/python .../daka.py >> .../check.log 2>&1
+30 17 1-5 * * python daka.py >> check.log 2>&1
 
 ```
 
@@ -37,11 +36,11 @@ crontab -e
 vim /etc/crontab
 # 创建上班打卡任务，使用文件的绝对路径，建议python解释器也使用绝对路径
 # 每周1-5的早上7:40 准时打卡下班，邮件提醒
-40 7 1-5 * * root /usr/lib/python .../daka.py >> .../check.log 2>&1
+40 7 1-5 * * root python daka.py >> check.log 2>&1
 
 # 创建下班打卡任务，每周1-5的早上17:30 准时打卡下班，邮件提醒
-30 17 1-5 * * root /usr/lib/python ./daka.py >> .../check.log 2>&1
+30 17 1-5 * * root python daka.py >> check.log 2>&1
 
 ```
 
-注： ... 是文件的绝对路径，(建议使用绝对路径)，请使用python3.5+，如果是其他版本可能存在编码错误，请使用英文替换中文。
+注： 注意使用python3，如果不熟悉Linux crontan任务，建议百度
