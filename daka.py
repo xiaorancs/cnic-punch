@@ -1,9 +1,8 @@
-
 # coding: utf-8
-
+# Author: xiaoran
+# Time: 2019-02-02 (update again)
 # In[22]:
 
-# -*- coding: utf-8 -*-
 import urllib
 import urllib.parse
 import urllib.request
@@ -14,10 +13,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 
-
-# In[ ]:
-
-# In[23]:
 
 def getToken(email, password):
     url="https://passport.escience.cn/oauth2/authorize"
@@ -31,19 +26,15 @@ def getToken(email, password):
         "pageinfo":"userinfo",
         "userName": email,
         "password": password
-    }
-    
+    } 
     #url编码
-    postdata=urllib.parse.urlencode(postdata).encode(encoding='UTF8')
+    postdata=urllib.parse.urlencode(postdata).encode(encoding='utf-8')
     #enable cookie
     request = urllib.request.Request(url,postdata)
     response=urllib.request.urlopen(request)
     # 返回对应的字典
     return eval(response.read())
 
-
-
-# In[32]:
 
 def check(userinfo,typeinfo='checkin'):
     '''上班打卡
@@ -71,9 +62,6 @@ def check(userinfo,typeinfo='checkin'):
 #     print(eval(response.read()))
     return eval(response.read())
     
-
-
-# In[33]:
 
 def sendEmail(email, password, receiver, typeinfo, ok = 1):
     '''
@@ -124,9 +112,6 @@ def sendEmail(email, password, receiver, typeinfo, ok = 1):
     return None
 
 
-
-# In[35]:
-
 def run(email, password):
     """run
     
@@ -134,7 +119,7 @@ def run(email, password):
     userinfo = getToken(email, password)
     
     # 上班
-    if time.localtime(time.time()).tm_hour < 11:
+    if time.localtime(time.time()).tm_hour < 12:
         result = check(userinfo,'checkin')
         # 打卡时间
         checktime = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
@@ -170,7 +155,7 @@ def timefilter():
     '''
     today_date = time.strftime('%Y%m%d')
 
-    date_file = open('./date/date','r+')
+    date_file = open('/home/wss/miao/dakala/date/date','r+')
     datelist = []
     for d in date_file.readlines():
         datelist.append(d[:8])
@@ -193,11 +178,11 @@ def main():
         return None
 
     # 每一个元素是用户和密码,在这里添加自己的即可
-    userlist = [['miaomiao@cnic.cn','miaomiao'],
-                ['wangwang@cnic.cn','wangwang']]
     
+    userlist = [['miao@cnic.cn','miaomiao'],
+                ['wang@cnic.cn','wangwang']] 
     # 随机生成一个0-10之间的数字
-    delaymin = random.random() * 10
+    delaymin = random.random() * 15
     
     time.sleep(60 * delaymin)    
     
@@ -207,13 +192,16 @@ def main():
 #     print(userlist)
     
     for user in userlist:
-        run(user[0],user[1])
-        time.sleep(60 * random.random() * 5)
-    
+        try:
+            run(user[0],user[1])
+            time.sleep(60 * random.random() * 5)
+        except Exception as e:
+            print ("Error:",e)
+            pass
 
-# In[ ]:
 
 # run all
-main()
+if __name__ == "__main__":
+    main()
 
 
